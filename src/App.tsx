@@ -1,26 +1,46 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
-function App() {
+import { Container, CssBaseline } from "@mui/material";
+
+import UserOnboardingPage from "./pages/UserOnboarding";
+import AdminPage from "./pages/Admin";
+import DataTablePage from "./pages/DataTable";
+
+import Header from "./components/Header";
+
+const App = () => {
+  const [formConfig, setFormConfig] = useState({
+    step2Components: ["aboutMe", "address"],
+    step3Components: ["birthdate"],
+  });
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Router>
+        <CssBaseline />
+        <Header />
+        <Container maxWidth="xl">
+          <Routes>
+            <Route
+              path="/"
+              element={<UserOnboardingPage formConfig={formConfig} />}
+            />
+            <Route
+              path="/admin"
+              element={
+                <AdminPage
+                  formConfig={formConfig}
+                  setFormConfig={setFormConfig}
+                />
+              }
+            />
+            <Route path="/data" element={<DataTablePage />} />
+          </Routes>
+        </Container>
+      </Router>
     </div>
   );
-}
+};
 
 export default App;
